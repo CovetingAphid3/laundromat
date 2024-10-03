@@ -1,0 +1,10 @@
+Flask
+Flask-SQLAlchemy
+pymysql
+flask-wtf
+wtforms[email]
+flask-login
+pillow
+itsdangerous==2.0.1
+Flask-Mail
+Flask-Migrate

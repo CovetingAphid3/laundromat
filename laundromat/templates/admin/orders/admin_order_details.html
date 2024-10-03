@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+{% block content %}
+<body>
+  
+    <main class="table">
+       
+        <section class="table__header">
+            <h1 style=" margin: auto;width: 50%;border: none;padding: 10px;margin-top: 15px;justify-content: center;text-align: center;">Customer's Orders</h1>
+        </section>
+        <section class="table__body">
+            <table>
+                <thead>
+                    <tr>
+                        <th> Order ID </th>
+                        <th> Service </th>
+                        <th> Customer </th>
+                        <th> Location </th>
+                        <th> Pick-up Date </th>
+                        <th> Pick-up time </th>
+                        <th> Contact details </th>
+                        <th> Special instructions </th>
+                        <th> Status </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> {{ order.id }} </td>
+                        <td> {{ order.service }} </td>
+                        <td> <a href="{{ url_for('admin.customer', user_id=order.user.id) }}">{{ order.user.name }} {{ order.user.surname }}</a></td>
+                        <td> {{ order.user.address[0].street_name }} | {{ order.user.address[0].complex }} | {{ order.user.address[0].suburb }} | {{ order.user.address[0].postal_code }} </td>
+                        <td> {{ order.date }} </td>
+                        <td> {{ order.pick_up_time }} </td>
+                        <td> {{ order.phone }} </td>
+                        <td> {{ order.special_instructions }} </td>
+                        {% if order.status == 'Delivered' %}
+                            <td><p class="status delivered" newsletter_list>Delivered</p></td>
+                        {% elif order.status == 'Pending' %}
+                            <td><p class="status pending" newsletter_list>Pending</p></td>
+                        {% elif order.status == 'Cancelled' %}
+                            <td><p class="status cancelled" newsletter_list>Cancelled</p></td>
+                        {% elif order.status == 'Payment Required' %}
+                            <td><p class="status payment" newsletter_list>Payment Required</p></td>
+                        {% else %}
+                            <td><p class="status shipped" newsletter_list>Shipped</p></td>
+                        {% endif %}
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <div style="display: flex; justify-content: center; align-items: center;">
+        <img class="account-img" src="{{ url_for('static', filename='/user_images/' + order.image)}}">
+        </div>
+        <form method="POST" action="" style="display: flex; justify-content: center; align-items: center;">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Update</legend>
+                <div class="form-group">
+                    {{ form.status.label(class="form-control-label") }}
+                    {% if form.status.errors %}
+                        {{ form.status(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.status.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.status(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.price.label }}
+                    {{ form.price(class="form-control") }}
+                    Please only set price if the status is set to 'Payment Required'
+                </div>
+            </fieldset>
+            <div class="form-group">
+            </br></br></br>    {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </main>
+    <div style="text-align: center;" id="payment-widget-container">
+        <!-- Zapper payment widget container -->
+    </div>
+    <script>
+        const paymentWidget = new zapper.payments.PaymentWidget(
+                "#payment-widget-container",
+                {
+                    merchantId: 64158,
+                    siteId: 81602,
+                    amount: {{order.price}},
+                    reference: "REF-001"
+                }
+            )
+
+            paymentWidget.on('payment', ({ status, paidAmount, zapperId, reference }) => {    
+                console.log(`Received payment of ${paidAmount} with reference ${reference}!`)
+            })
+    </script>
+</body>
+{% endblock content%}

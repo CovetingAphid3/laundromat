@@ -1,0 +1,121 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+
+    .content-section{
+     margin: auto;
+     width: 70%;
+     border: none;
+     padding: 10px;
+     margin-top: 15px;
+    }
+ </style>
+    <div class="content-section" >
+      <div class="media">
+        <div class="media-body">
+          <h2 class="account-heading row justify-content-center">{{ current_user.name }} {{ current_user.surname}}</h2>
+          <p class="text-secondary row justify-content-center">{{ current_user.email }}</p>
+        </div>
+      </div>
+      <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4" style="text-align: center;font-weight: bold; font-size:xx-large;">Account info</legend>
+            <div class="form-group">
+                {{ form.name.label(class="form-control-label") }}
+                {% if form.name.errors %}
+                    {{ form.name(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.name.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.name(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.surname.label(class="form-control-label") }}
+                {% if form.surname.errors %}
+                    {{ form.surname(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.surname.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.surname(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.phone.label(class="form-control-label") }}
+                {% if form.phone.errors %}
+                    {{ form.phone(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.phone.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.phone(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.street_name.label(class="form-control-label") }}
+                {% if form.street_name.errors %}
+                    {{ form.street_name(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.street_name.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.street_name(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.complex.label(class="form-control-label") }}
+                {% if form.complex.errors %}
+                    {{ form.complex(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.complex.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.complex(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.suburb.label(class="form-control-label") }}
+                {% if form.suburb.errors %}
+                    {{ form.suburb(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.suburb.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.suburb(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.postal_code.label(class="form-control-label") }}
+                {% if form.postal_code.errors %}
+                    {{ form.postal_code(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.postal_code.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.postal_code(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+    </div>
+{% endblock content %}

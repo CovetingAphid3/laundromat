@@ -1,0 +1,128 @@
+{% extends "layout.html" %}
+{% block content %}
+    <main class="table">
+        <section class="table__header">
+            <h1>Your order</h1>
+        </section>
+        <section class="table__body">
+            <table>
+                <thead>
+                    <tr>
+                        <th> Service </th>
+                        <th> Customer </th>
+                        <th> Location </th>
+                        <th> Order Date </th>
+                        <th> Pick-up time </th>
+                        <th> Contact details </th>
+                        <th> Status </th>
+                        <th> Special instructions </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td> {{ order.service }} </td>
+                        <td> {{ order.user.name }} {{ order.user.surname }}</td>
+                        <td> {{ order.user.address[0].street_name }} | {{ order.user.address[0].complex }} | {{ order.user.address[0].suburb }} | {{ order.user.address[0].postal_code }} </td>
+                        <td> {{ order.date }} </td>
+                        <td> {{ order.pick_up_time }} </td>
+                        <td> {{ order.phone }} </td>
+                        {% if order.status == 'Delivered' %}
+                            <td><p class="status delivered">Delivered</p></td>
+                        {% elif order.status == 'Pending' %}
+                            <td><p class="status pending" >Pending</p></td>
+                        {% elif order.status == 'Cancelled' %}
+                            <td><p class="status cancelled">Cancelled</p></td>
+                        {% elif order.status == 'Payment Required' %}
+                            <td><p class="status payment">Payment Required</p></td>
+                        {% else %}
+                            <td><p class="status shipped">Shipped</p></td>
+                        {% endif %}
+                        <td> {{ order.special_instructions }}  </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        {% if order.price %}
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <img class="account-img" src="{{ url_for('static', filename='/user_images/' + order.image)}}">
+        </div>
+        
+        <h6 class="text-secondary text-uppercase text-center font-weight-medium mb-3">Please select your payment method</h6>
+        <!-- Dropdown Start -->
+        <div style="text-align: center; padding-bottom: 20px;">
+            <select id="payment-method" onchange="togglePaymentMethod()" style="border: None; color: #fff; background-color: #102b4c; border-color: #0e2541;">
+                <option value="">Please select payment method</option>
+                <option value="zapper">Zapper</option>
+                <option value="payfast">PayFast</option>
+            </select>
+        </div>
+        
+        <div id="zapper-widget-container">
+            <div id="payment-widget-container" style="text-align: center;">
+                <!-- Zapper payment widget container -->
+            </div>
+        </div>
+       
+        <div id="payfast-form-container" style="text-align: center;">
+            <form action="https://sandbox.payfast.co.za​/eng/process" method="post">
+                <input type="hidden" name="merchant_id" value="10030080">
+                <input type="hidden" name="merchant_key" value="b3m7kollv92yx">
+                <input type="hidden" name="amount" value="{{ order.price }}">
+                <input type="hidden" name="item_name" value="{{ order.service }}">
+                <input type="hidden" name="m_payment_id" value="{{ order.id }}">
+                <input type="hidden" name="return_url" value="http://localhost:5000/success">
+                <input type="hidden" name="cancel_url" value="http://localhost:5000/orders">
+                <input type="hidden" name="notify_url" value="http://localhost:80/notify">
+                <input type="hidden" name="name_first" value="{{ order.user.name }}">
+                <input type="hidden" name="name_last" value="{{ order.user.surname }}">
+                <input type="hidden" name="email_address" value="{{ order.user.email }}">
+                <input type="hidden" name="cell_number" value="{{ order.phone }}">
+                <input type="hidden" name="email_confirmation" value="1">
+                <input type="hidden" name="confirmation_address" value="simbachawanda@gmail.com">
+                <button type="submit" class="payfast-logo-button">
+                    <img src="{{url_for('static', filename='/img/payfast.png')}}" alt="Logo" class="payfast-logo-image">
+                    Pay now
+                </button>
+             </form>
+        </div>
+        <script>
+            const paymentWidget = new zapper.payments.PaymentWidget(
+                    "#payment-widget-container",
+                    {
+                        merchantId: 64158,
+                        siteId: 81602,
+                        amount: {{ order.price }},
+                        reference: {{ order.id }}
+                    }
+                )
+    
+                paymentWidget.on('payment', ({ status, paidAmount, zapperId, reference }) => {    
+                    console.log(`Received payment of ${paidAmount} with reference ${reference}!`)
+                })
+        </script>
+
+        <script>
+            // Initial state
+            var zapperContainer = document.getElementById("zapper-widget-container");
+            var payfastContainer = document.getElementById("payfast-form-container");
+            payfastContainer.style.display = "none";
+            zapperContainer.style.display = "none";
+          
+            function togglePaymentMethod() {
+              var paymentMethod = document.getElementById("payment-method").value;
+          
+              if (paymentMethod === "zapper") {
+                zapperContainer.style.display = "block";
+                payfastContainer.style.display = "none";
+              } else if (paymentMethod === "payfast") {
+                zapperContainer.style.display = "none";
+                payfastContainer.style.display = "block";
+              }
+            }
+        </script>
+  
+        {% endif %}
+    </main>
+<!-- </body> -->
+{% endblock content %}

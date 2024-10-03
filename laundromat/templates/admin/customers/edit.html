@@ -1,0 +1,185 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="col-md-8" style="padding-top: 30px; margin: auto;">
+    <div class="card">
+      <div class="card-header p-2">
+        <nav class="nav nav-pills nav-justified">
+          <a
+            class="nav-link active"
+            data-bs-toggle="tab"
+            data-bs-target="#address"
+            role="tab"
+            style="cursor: pointer;transition: 300;">Address details</a
+          >
+          <a
+            class="nav-link"
+            data-bs-toggle="tab"
+            data-bs-target="#user"
+            role="tab"
+            style="cursor: pointer;transition: 300ms;">
+            Account info</a
+          >
+        </nav>
+      </div>
+      <div class="card-body">
+        <div class="tab-content">
+          <div class="active tab-pane" id="address">
+            <form method="POST" action="">
+                {{ addressForm.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4" style="text-align: center;font-weight: bold; font-size:xx-large;">Address details</legend>
+                    <div class="form-group">
+                        {{ addressForm.street_name.label(class="form-control-label") }}
+                        {% if addressForm.street_name.errors %}
+                            {{ addressForm.street_name(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in addressForm.street_name.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ addressForm.street_name(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ addressForm.complex.label(class="form-control-label") }}
+                        {% if addressForm.complex.errors %}
+                            {{ addressForm.complex(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.complex.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ addressForm.complex(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ addressForm.suburb.label(class="form-control-label") }}
+                        {% if addressForm.suburb.errors %}
+                            {{ addressForm.suburb(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in addressForm.suburb.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ addressForm.suburb(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ addressForm.postal_code.label(class="form-control-label") }}
+                        {% if addressForm.postal_code.errors %}
+                            {{ addressForm.postal_code(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.postal_code.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ addressForm.postal_code(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    {{ addressForm.submit(class="btn btn-outline-info") }}
+                </div>
+            </form>
+          </div>
+          <div class="tab-pane" id="user">
+            <form method="POST" action="">
+                {{ userForm.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4" style="text-align: center;font-weight: bold; font-size:xx-large;">Account info</legend>
+                    <div class="form-group">
+                        {{ userForm.name.label(class="form-control-label") }}
+                        {% if userForm.name.errors %}
+                            {{ userForm.name(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in userForm.name.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ userForm.name(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ userForm.surname.label(class="form-control-label") }}
+                        {% if userForm.surname.errors %}
+                            {{ userForm.surname(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in userForm.surname.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ userForm.surname(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ userForm.email.label(class="form-control-label") }}
+                        {% if userForm.email.errors %}
+                            {{ userForm.email(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in userForm.email.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ userForm.email(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ userForm.phone.label(class="form-control-label") }}
+                        {% if userForm.phone.errors %}
+                            {{ userForm.phone(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in userForm.phone.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ userForm.phone(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ userForm.password.label(class="form-control-label") }}
+                        {% if userForm.password.errors %}
+                            {{ userForm.password(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in userForm.password.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ userForm.password(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ userForm.confirm_password.label(class="form-control-label") }}
+                        {% if userForm.confirm_password.errors %}
+                            {{ userForm.confirm_password(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in userForm.confirm_password.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ userForm.confirm_password(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    {{ userForm.submit(class="btn btn-outline-info") }}
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock content %}

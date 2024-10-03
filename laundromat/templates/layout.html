@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!--  -->
+    <script src="{{url_for('static',filename='admin/index.js')}}"></script>
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{{url_for('static',filename='admin/index.css')}}"
+  >
+
+
+    <meta charset="utf-8">
+    {% if title %}
+        <title>LaundryGO!!  - {{ title }}</title>
+    {% else %}
+        <title>LaundryGO!!</title>
+    {% endif %}
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Laundromat Website" name="keywords">
+    <meta content="Laundromat Website" name="description">
+
+    <!-- Favicon -->
+    <link href="{{url_for('static',filename='img/favicon.icon')}}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;800&display=swap" rel="stylesheet"> 
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{{url_for('static',filename='lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{{url_for('static',filename='css/style.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <!-- Zapper payment Javascript -->
+    <script src="https://zapper-ecommerce.s3-eu-west-1.amazonaws.com/releases/zapper.ecommerce-2.0.3.min.js"></script>
+</head>
+
+<body style="padding: 0; margin: 0;">
+    <!-- Topbar Start -->
+    <div class="container-fluid bg-primary py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-lg-left mb-2 mb-lg-0">
+                    <div class="d-inline-flex align-items-center">
+                        
+                        
+                        <div class="d-flex justify-content-start mt-4">
+                            <a class="btn btn-outline-light rounded-circle text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-outline-light rounded-circle text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-outline-light rounded-circle text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a class="btn btn-outline-light rounded-circle text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+
+    <!-- Navbar Start -->
+    <div class="container-fluid position-relative nav-bar p-0" >
+        <div class="container-lg position-relative p-0 px-lg-3" style="z-index: 9;">
+            <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0 pl-3 pl-lg-5" style="border-radius: 5px;background-color: aliceblue;">
+                <a href="" class="navbar-brand">
+                    <h1 class="m-0 text-secondary" ><span class="text-primary">Laundry</span>GO!!</h1>
+                </a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
+                    <div class="navbar-nav ml-auto py-0">
+                        <a href="{{ url_for('main.home') }}" class="nav-item nav-link ">Home</a>
+                        <a href="{{url_for('main.service')}}" class="nav-item nav-link">Services</a>
+                        <a href="{{url_for('main.pricing')}}" class="nav-item nav-link">Pricing</a>
+                        <a href="{{ url_for('main.about')}}"class="nav-item nav-link ">About</a>
+                        <a href="{{url_for('orders.order')}}" class="nav-item nav-link ">Order</a>
+                        {% if not current_user.is_authenticated %}
+                            <a href="{{url_for('users.login')}}" class="nav-item nav-link">Login</a>
+                            <a href="{{url_for('users.register')}}" class="nav-item nav-link ">Register</a>
+                        {% else %}
+                        <a href="{{url_for('users.logout')}}" class="nav-item nav-link">Logout</a>
+                        {% endif %}
+
+                        
+                        <!-- Dropdown Start -->
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Account</a>
+                            <div class="dropdown-menu border-0 rounded-0 m-0">
+                                <a href="{{url_for('users.account')}}" class="nav-item nav-link active">Account</a>
+                                <a href="{{url_for('orders.view_orders')}}" class="nav-item nav-link active">Past orders</a>
+                                <a href="{{url_for('users.addressbook')}}" class="nav-item nav-link active">Address Book</a>
+                            </div>
+                            <!-- Dropdown end -->
+                        </div>
+
+                        {% if current_user.is_admin %}
+                         <!-- Dropdown start -->
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Admin panel</a>
+                            <div class="dropdown-menu border-0 rounded-0 m-0">
+                                <a href="{{url_for('admin.admin_dashboard')}}" class="nav-item nav-link active"> Admin Dashboard </a>
+                                <a href="{{url_for('admin.customers')}}" class="nav-item nav-link active"> Customers </a>
+                                <a href="{{url_for('admin.newsletter_list')}}" class="nav-item nav-link active"> Newsletter list </a>
+                            </div>
+                            <!-- Dropdown end -->
+                        </div>
+                        {% endif %}
+
+                        
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    </header>
+
+
+  
+           {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          {% block content %}{% endblock %}
+      
+
+
+    
+
+    
+     <!-- Footer Start -->
+     <div class="container-fluid bg-primary text-white mt-5 pt-5 px-sm-3 px-md-5">
+        <div class="row pt-5">
+            <div class="col-lg-3 col-md-6 mb-5">
+                <a href=""><h1 class="text-secondary mb-3"><span class="text-white">DRY</span>ME</h1></a>
+                <p>Volup amet magna clita tempor. Tempor sea eos vero ipsum. Lorem lorem sit sed elitr sit no, sed kasd et ipsum dolor duo dolor</p>
+                <div class="d-flex justify-content-start mt-4">
+                    <a class="btn btn-outline-light rounded-circle text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-light rounded-circle text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light rounded-circle text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a class="btn btn-outline-light rounded-circle text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h4 class="text-white mb-4">Get In Touch</h4>
+                <p>Dolor clita stet nonumy clita diam vero, et et ipsum diam labore</p>
+                <p><i class="fa fa-map-marker-alt mr-2"></i>123 Street, New York, USA</p>
+                <p><i class="fa fa-phone-alt mr-2"></i>+012 345 67890</p>
+                <p><i class="fa fa-envelope mr-2"></i>info@example.com</p>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h4 class="text-white mb-4">Quick Links</h4>
+                <div class="d-flex flex-column justify-content-start">
+                    <a class="text-white mb-2" href="{{url_for('main.home')}}"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                    <a class="text-white mb-2" href="{{url_for('main.about')}}"><i class="fa fa-angle-right mr-2"></i>About</a>
+                    <a class="text-white mb-2" href="{{url_for('main.service')}}"><i class="fa fa-angle-right mr-2"></i>Service</a>
+                    <a class="text-white mb-2" href="{{url_for('main.pricing')}}"><i class="fa fa-angle-right mr-2"></i>Pricing</a>
+                    <a class="text-white" href="{{url_for('main.details')}}"><i class="fa fa-angle-right mr-2"></i>Details</a>
+                    <a class="text-white" href="{{url_for('main.blog')}}"><i class="fa fa-angle-right mr-2"></i>Blog</a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h4 class="text-white mb-4">Newsletter</h4>
+                <form method="POST" action="{{ url_for('main.newsletter_signup')}}">
+                    <div class="form-group">
+                        <input name="name" type="text" class="form-control border-0" placeholder="Your Name" required="required" />
+                    </div>
+                    <div class="form-group">
+                        <input name="email" type="email" class="form-control border-0" placeholder="Your Email" required="required" />
+                    </div>
+                    <div>
+                        <button class="btn btn-lg btn-secondary btn-block border-0" type="submit">Submit Now</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bg-dark text-white py-4 px-sm-3 px-md-5">
+        <p class="m-0 text-center text-white">
+            &copy; <a class="text-white font-weight-medium" href="{{url_for('main.home')}}">LaundryGO!!</a>. All Rights Reserved. 
+			
+			<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+			Designed by <a class="text-white font-weight-medium" href="https://htmlcodex.com">HTML Codex</a>
+        </p>
+    </div>
+    <!-- Footer End -->
+
+    
+    
+        <!-- Back to Top -->
+        
+        <a href="#" class="btn btn-lg btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+    
+    
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="{{url_for('static',filename='lib/easing/easing.min.js')}}"></script>
+        <script src="{{url_for('static',filename='lib/waypoints/waypoints.min.js')}}"></script>
+        <script src="{{url_for('static',filename='lib/counterup/counterup.min.js')}}"></script>
+        <script src="{{url_for('static',filename='lib/owlcarousel/owl.carousel.min.js')}}"></script>
+    
+        <!-- Contact Javascript File -->
+        <script src="mail/jqBootstrapValidation.min.js"></script>
+        <script src="{{url_for('static',filename='mail/contact.js')}}"></script>
+    
+        <!-- Template Javascript -->
+        <script src="{{url_for('static',filename='js/main.js')}}"></script>
+    </body>
+    
+    </html>

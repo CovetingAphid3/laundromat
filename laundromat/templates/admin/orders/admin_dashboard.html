@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block content %}
+<!-- <body> -->
+  <main class="table">
+      <section class="table__header">
+          <h1 style=" margin: auto;width: 50%;border: none;padding: 10px;margin-top: 15px;justify-content: center;text-align: center;">Customer's Orders</h1>
+      </section>
+      <section class="table__body">
+          <table>
+              <thead>
+                  <tr>
+                      <th> Order ID </th>
+                      <th> Service </th>
+                      <th> Customer </th>
+                      <th> Location </th>
+                      <th> Order Date </th>
+                      <th> Pick-up time </th>
+                      <th> Contact details </th>
+                      <th> Special instructions </th>
+                      <th> Status </th>
+                      <th> Update</th>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for order in orders %}
+                  <tr>
+                      <td> {{ order.id }} </td>
+                      <td> {{ order.service }} </td>
+                      <td> <a href="{{ url_for('admin.customer', user_id=order.user.id) }}">{{ order.user.name }} {{ order.user.surname }}</a></td>
+                      <td> {{ order.user.address[0].street_name }} | {{ order.user.address[0].complex }} | {{ order.user.address[0].suburb }} | {{ order.user.address[0].postal_code }} </td>
+                      <td> {{ order.date }} </td>
+                      <td> {{ order.pick_up_time }} </td>
+                      <td> {{ order.phone }} </td>
+                      <td> {{ order.special_instructions }} </td>
+                      {% if order.status == 'Delivered' %}
+                            <td><p class="status delivered" >Delivered</p></td>
+                        {% elif order.status == 'Pending' %}
+                            <td><p class="status pending" >Pending</p></td>
+                        {% elif order.status == 'Cancelled' %}
+                            <td><p class="status cancelled" >Cancelled</p></td>
+                        {% elif order.status == 'Payment Required' %}
+                            <td><p class="status payment">Payment Required</p></td>
+                        {% else %}
+                            <td><p class="status shipped" >Shipped</p></td>
+                        {% endif %}
+                      <td> <a class="btn btn-outline-info" href="{{ url_for('admin.admin_order_details', order_id=order.id) }}">Update</a></td>
+                    </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+      </section>
+  </main>
+<!-- </body> -->
+{% endblock content%}
